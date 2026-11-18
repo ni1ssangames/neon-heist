@@ -1,49 +1,32 @@
-# NEON HEIST — Galactic Edition
+# NEON HEIST — Galactic Edition (v1.2)
 
-A touch-first arcade endless runner built as a web game and Capacitor iOS project.
+A touch-first neon arcade survival game for mobile browsers and a future Capacitor iOS build.
 
-## Included in this source build
-- Neon title screen, pilot profile, hangar/shop, 30 purchasable ship frames and local save.
-- Endless runs, star pickups, Bits, sequential missions and +5 Bits per completed mission.
-- +1 Bit per star collected during a run.
-- Enemy drones (with visible attack tell), scouts, hunters, tanks, monsters and boss encounters.
-- Boss weak-point windows; the ship auto-fires during runs and shots damage the boss only while its core is open. Defeat awards 25 bonus Bits.
-- Five timed boosters are represented in the game logic: shield, magnet, slow, hyper-fire and cloak.
-- 50 achievements with increasing reward tiers, sound effects and synthesized background music.
-- Drag/touch-only movement. There are no left/right control buttons.
-- Supabase email authentication and shared leaderboard integration, once configured.
+## Version 1.2 changes
+- Slower, more forgiving gameplay: world movement is reduced, spawns are less frequent, projectiles are slower, and boss attacks have longer gaps.
+- Health bars above enemies and a dedicated boss health bar.
+- Live mid-run booster panel with effect descriptions, countdowns and progress bars.
+- New Booster Lab with permanent Duration and Power upgrades for all five boosters. Each upgrade path has five levels and costs Bits.
+- Ship skins sharing the same shape now share the same price.
+- Local save migration supports v6, v5 and v4 saves.
 
-## Run locally
-Requires Node.js 20+.
+## Existing game features
+- 30 ships, ship hangar, Bits and 50 achievements.
+- Endless one-hit survival gameplay with touch-and-drag controls.
+- Missions: +5 Bits per completed mission; each collected star awards +1 Bit.
+- Drones, scouts, hunters, tanks, monsters and boss fights.
+- Five boosters: shield, magnet, slow, hyper-fire and cloak.
+- Generated music and sound effects.
+- Supabase email registration/sign-in and shared leaderboard integration after configuration.
 
-```bash
-npm install
-cp config.example.js config.js
-# edit config.js with Supabase project URL and anon key (optional for offline play)
-npm run start
-```
+## Publish on GitHub Pages
+Upload/replace `index.html` and `game.js` in the repository root. Keep your existing `config.js` so you do not overwrite your Supabase settings. `manifest.webmanifest` is unchanged. Commit the files and wait for GitHub Pages to deploy.
 
-For a production web build: `npm run build`, then deploy the `dist/` folder to a static host with HTTPS. Configure your Supabase URL/key in `config.js` before building.
+## Supabase setup
+The game still requires your own Supabase project URL and public anon/publishable key in `config.js`, plus the SQL schema run in the Supabase SQL Editor. Never put a `service_role` key in browser code. Email confirmation settings and allowed redirect URLs must be configured in Supabase Authentication.
 
-## Online accounts and global leaderboard
-1. Create a Supabase project.
-2. Open SQL Editor and run `supabase/schema.sql`.
-3. In Project Settings → API, copy the Project URL and anon/publishable key into `config.js` (never use the service-role key in a client app).
-4. Enable Email auth in Authentication → Providers. For quick testing, configure email confirmation to suit your test environment.
-5. Rebuild/redeploy. Create an account from Account & Global Rank.
+## Test notes
+JavaScript syntax was checked with Node.js. HTML IDs were checked for duplicates and against JavaScript references. A full real-device iPhone test and live Supabase test have not been performed here.
 
-**Competitive-integrity warning:** this starter submits a score from the client. The SQL function checks authentication and bounds but cannot prove a score was earned legitimately. A public competitive leaderboard needs server-authoritative simulation or replay validation, rate limits, and anti-cheat before launch. Do not market this starter leaderboard as cheat-proof.
-
-## iPhone App Store build
-Requires macOS, Xcode, an Apple Developer account and signing access.
-
-```bash
-npm run build
-npx cap add ios
-npx cap sync ios
-npx cap open ios
-```
-In Xcode, set the signing team and bundle ID, test on real iPhones, add app icons/screenshots/privacy details, archive, then submit through App Store Connect. Apple review and publication are external steps; this repository is not already published.
-
-## Important scope notes
-This is a newly assembled source implementation based on the requirements available in the conversation. It cannot merge hidden source code from an earlier prototype or migrate its local save automatically. The game is playable offline immediately; cloud accounts and rankings become active only after Supabase setup. The current game is a foundation release, not a finished, externally audited commercial launch.
+## iPhone
+Open the deployed HTTPS URL in Safari → Share → Add to Home Screen. This creates a home-screen web app shortcut, not an App Store installation.
